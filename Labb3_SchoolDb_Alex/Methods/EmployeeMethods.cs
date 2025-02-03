@@ -54,10 +54,7 @@ public class EmployeeMethods
                     {
                         break; // exit the loop if the input is valid
                     }
-                    else
-                    {
-                        Console.WriteLine("Ogiltigt val. Vänligen försök igen.");
-                    }
+                    Console.WriteLine("Ogiltigt val. Vänligen försök igen.");
                 }
 
                 // create a new Employee object and add it to the database

@@ -144,3 +144,4 @@
 /Users/alexanderek/RiderProjects/Labb3_SchoolDb_Alex/Labb3_SchoolDb_Alex/obj/Debug/net9.0/Labb3_SchoolDb_Alex.pdb
 /Users/alexanderek/RiderProjects/Labb3_SchoolDb_Alex/Labb3_SchoolDb_Alex/obj/Debug/net9.0/Labb3_SchoolDb_Alex.genruntimeconfig.cache
 /Users/alexanderek/RiderProjects/Labb3_SchoolDb_Alex/Labb3_SchoolDb_Alex/obj/Debug/net9.0/ref/Labb3_SchoolDb_Alex.dll
+/Users/alexanderek/RiderProjects/Labb3_SchoolDb_Alex/Labb3_SchoolDb_Alex/obj/Debug/net9.0/Labb3_SchoolDb_Alex.sourcelink.json

@@ -4,74 +4,65 @@ namespace Labb3_SchoolDb_Alex.Methods;
 
 public class StudentMethods
 {
-public static void GetAllStudents()
-{
-    try
+    public static void GetAllStudents()
     {
-        using (var context = new MyDbContext())
+        try
         {
-            string sortChoice;
-            string orderChoice;
-            
-            // Säkerställa att användaren bara kan mata in 1 eller 2 för sorteringsval
-            while (true)
+            using (var context = new MyDbContext())
             {
-                Console.WriteLine("Vill du sortera på:");
-                Console.WriteLine("1. Förnamn");
-                Console.WriteLine("2. Efternamn");
-                sortChoice = Console.ReadLine();
+                string sortChoice, orderChoice;
+                
+                do
+                {
+                    Console.WriteLine("Vill du sortera på:\n1. Förnamn\n2. Efternamn");
+                    sortChoice = Console.ReadLine();
 
-                if (sortChoice == "1" || sortChoice == "2")
-                    break;
+                    if (sortChoice != "1" && sortChoice != "2")
+                    {
+                        Console.WriteLine("Felaktig inmatning. Vänligen ange ett giltligt val.");
+                    }
+                } while (sortChoice != "1" && sortChoice != "2");
 
-                Console.WriteLine("Felaktig inmatning. Vänligen ange 1 eller 2.");
+                do
+                {
+                    Console.WriteLine("Sorteringsordning:\n1. Stigande\n2. Fallande");
+                    orderChoice = Console.ReadLine();
+
+                    if (orderChoice != "1" && orderChoice != "2")
+                    {
+                        Console.WriteLine("Felaktig inmatning. Vänligen ange ett giltligt val.");
+                    }
+                } while (orderChoice != "1" && orderChoice != "2");
+
+                // Get all students as a IQueryable to be able to sort them on a database level
+                var students = context.Students.AsQueryable();
+
+                // Sort the students based on the user's choice with ternary operators
+                students = (sortChoice == "1" ? 
+                    (orderChoice == "1" ? students.OrderBy(s => s.FirstName) 
+                        : students.OrderByDescending(s => s.FirstName)) :
+                    (orderChoice == "1" ? students.OrderBy(s => s.LastName) 
+                        : students.OrderByDescending(s => s.LastName)));
+                
+                string sortFieldText = sortChoice == "1" ? "förnamn" : "efternamn";
+                string sortOrderText = orderChoice == "1" ? "stigande" : "fallande";
+                Console.WriteLine($"\nLista över elever sorterad efter {sortFieldText} ({sortOrderText}):");
+                
+                foreach (var student in students.ToList())
+                {
+                    Console.WriteLine($"{student.FirstName} {student.LastName}");
+                }
+
+                Console.WriteLine("\nTryck på valfri tangent för att återgå till menyn.");
+                Console.ReadKey();
             }
-
-            // Säkerställa att användaren bara kan mata in 1 eller 2 för sorteringsordning
-            while (true)
-            {
-                Console.WriteLine("Sorteringsordning:");
-                Console.WriteLine("1. Stigande");
-                Console.WriteLine("2. Fallande");
-                orderChoice = Console.ReadLine();
-
-                if (orderChoice == "1" || orderChoice == "2")
-                    break;
-
-                Console.WriteLine("Felaktig inmatning. Vänligen ange 1 eller 2.");
-            }
-
-            var students = context.Students.AsQueryable();
-
-            if (sortChoice == "1")
-            {
-                students = orderChoice == "1"
-                    ? students.OrderBy(s => s.FirstName)
-                    : students.OrderByDescending(s => s.FirstName);
-            }
-            else
-            {
-                students = orderChoice == "1"
-                    ? students.OrderBy(s => s.LastName)
-                    : students.OrderByDescending(s => s.LastName);
-            }
-
-            Console.WriteLine("\nLista över elever:");
-            foreach (var student in students.ToList())
-            {
-                Console.WriteLine($"{student.FirstName} {student.LastName}");
-            }
-
-            Console.WriteLine("\nTryck på valfri tangent för att återgå till menyn.");
-            Console.ReadKey();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Ett fel inträffade när eleverna hämtades. Försök igen senare.");
+            Console.WriteLine($"Felsökningsinformation: {ex.Message}");
         }
     }
-    catch (Exception ex)
-    {
-        Console.WriteLine("Ett fel inträffade när eleverna hämtades. Försök igen senare.");
-        Console.WriteLine($"Felsökningsinformation: {ex.Message}");
-    }
-}
     
     public static void GetStudentsByClass()
     {
@@ -131,6 +122,4 @@ public static void GetAllStudents()
             Console.WriteLine($"Felsökningsinformation: {ex.Message}");
         }
     }
-    
-    
 }

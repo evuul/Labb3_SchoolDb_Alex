@@ -9,6 +9,7 @@ public class Interface
     {
         while (true)
         {
+            Console.Clear();
             Console.WriteLine("Välkommen till skolapplikationen!\n Var god välj ett alternativ:");
             Console.WriteLine("1. Hämta alla elever");
             Console.WriteLine("2. Hämta alla elever i en viss klass");
